@@ -1,8 +1,12 @@
+//import { createAuthUserWithEmailAndPassword } from "../../../utils/firebase/firebase"
+
 import { useState } from 'react'
 
 import { Button, Input } from '../../components'
 
 import { useNavigate } from 'react-router-dom'
+import { createAuthUserWithEmailAndPassword } from '../../../utils/firebase/firebase'
+//import { createAuthUserWithEmailAndPassword } from '../../../utils/firebase/firebase'
 
 const defaultFormFields = {
   displayName: "",
@@ -15,11 +19,11 @@ export default function Signup() {
   const [ formFields, setFormFields ] = useState(defaultFormFields)
   const { displayName,email,password,confirmPassword } = formFields
 
-  const navigate = useNavigate();
+  //const navigate = useNavigate();
+  
+  
 
-  // const resetFormFields=()=>{
-  //   setFormFields(defaultFormFields)
-  // }
+  
   const handleOnChange = (e)=>{
     const { name,value } = e.target
     setFormFields({...formFields, [name]:value})
@@ -31,24 +35,21 @@ export default function Signup() {
 
   const handleSubmit = async (e)=>{
     e.preventDefault()
+    
     if(password !== confirmPassword){
       console.log("Passwords do not match!!!")
       return;
     }
 
-    //const userCredential = await createAuthUserWithEmailAndPassword()
     try{
-      // const userCredential = await createUserWithEmailAndPassword(auth,email,password)
-      // console.log(userCredential)
-      // const user = userCredential.user
-      // localStorage.setItem('token',user.accessToken)
-      // localStorage.setItem('user',JSON.stringify(user))
+      const response = await createAuthUserWithEmailAndPassword(email,password)
+      console.log(response)
       
       resetFormFields()
 
-      navigate("home")
+      //navigate("home")
 
-    }catch(error){console.log(error)}
+    }catch(error){console.log(error.message)}
 
   }
 
@@ -87,7 +88,7 @@ export default function Signup() {
           required
         />
         <div>
-          <Button type="submit" >Sign up</Button>
+          <Button type="submit">Sign up</Button>
         </div>
       </form>
     </div>
