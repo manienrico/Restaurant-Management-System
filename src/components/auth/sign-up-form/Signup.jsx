@@ -5,7 +5,10 @@ import { useState } from 'react'
 import { Button, Input } from '../../components'
 
 import { useNavigate } from 'react-router-dom'
-import { createAuthUserWithEmailAndPassword } from '../../../utils/firebase/firebase'
+import { 
+  createAuthUserWithEmailAndPassword,
+  createUserDocumentFromAuth
+ } from '../../../utils/firebase/firebase'
 //import { createAuthUserWithEmailAndPassword } from '../../../utils/firebase/firebase'
 
 const defaultFormFields = {
@@ -42,8 +45,12 @@ export default function Signup() {
     }
 
     try{
-      const response = await createAuthUserWithEmailAndPassword(email,password)
-      console.log(response)
+      const {user} = await createAuthUserWithEmailAndPassword(
+        email,
+        password
+      )
+
+      await createUserDocumentFromAuth(user, { displayName })
       
       resetFormFields()
 

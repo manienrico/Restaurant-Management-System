@@ -9,7 +9,10 @@ import {
 } from "firebase/auth"
 
 import {
+    doc,
+    getDoc,
     getFirestore,
+    setDoc,
 } from "firebase/firestore"
 
 
@@ -25,10 +28,36 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
+
+export const auth = getAuth();
+
 // Initialize db
 export const db = getFirestore(app)
 
-export const auth = getAuth();
+
+
+//create user from auth
+export const createUserDocumentFromAuth = async (userAuth, additionalInformation ={})=>{
+    if(!userAuth) return;
+
+    const userDocRef = doc(db,"users",userAuth.uid);
+
+    const userSnapshot = await getDoc(userDocRef);
+
+    if(!userSnapshot.exists()){
+        const { displayName,email } = userAuth;
+        const createdAt = new Date();
+
+        try{
+            await setDoc(userDocRef,{
+                displayName,
+                email,
+                createdAt,
+                ...additionalInformation,
+            })
+        }catch(error){console.log(error.message)}
+    }
+}
 
 //Sign up
 export const createAuthUserWithEmailAndPassword = async (email,password)=>{
