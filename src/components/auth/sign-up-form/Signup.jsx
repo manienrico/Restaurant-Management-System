@@ -50,7 +50,7 @@ export default function Signup() {
         password
       )
 
-      const userDocRef = await createUserDocumentFromAuth(user)
+      const userDocRef = await createUserDocumentFromAuth(user,{ displayName })
       
       resetFormFields()
 

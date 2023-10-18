@@ -3,6 +3,8 @@ import { useState } from 'react'
 import { Button, Input } from '../../components'
 
 import './signin.styles.css'
+import { signinAuthUserWithEmailAndPassword } from '../../../utils/firebase/firebase'
+import { signInWithEmailAndPassword } from 'firebase/auth'
 
 const defaultFormField = {
   email: '',
@@ -26,9 +28,12 @@ export default function Signin() {
     e.preventDefault()
 
     try{
-      
-    }catch(error){console.log(error)}
+      const response = await signinAuthUserWithEmailAndPassword(email,password)
+      console.log(response)
 
+      resetFormFields()
+    }catch(error){console.log(error.message)}
+    
   }
 
   return (
