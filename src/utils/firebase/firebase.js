@@ -9,10 +9,10 @@ import {
 } from "firebase/auth"
 
 import {
-    doc,
-    getDoc,
+    doc, //retrieve doc from db
+    getDoc, //getting the document's data
     getFirestore,
-    setDoc,
+    setDoc, //setting the document's data
 } from "firebase/firestore"
 
 
@@ -32,31 +32,35 @@ const app = initializeApp(firebaseConfig);
 export const auth = getAuth();
 
 // Initialize db
-export const db = getFirestore(app)
+export const db = getFirestore()
 
 
 
-//create user from auth
+//create user document from auth
 export const createUserDocumentFromAuth = async (userAuth, additionalInformation ={})=>{
     if(!userAuth) return;
 
-    const userDocRef = doc(db,"users",userAuth.uid);
+    const userDocRef = doc(db,"users",userAuth.uid); //actual instance of the doc -- doc(database,"collection",uniqueID)
 
-    const userSnapshot = await getDoc(userDocRef);
+    console.log(userDocRef)
 
-    if(!userSnapshot.exists()){
-        const { displayName,email } = userAuth;
-        const createdAt = new Date();
+    const userSnapshot = await getDoc(userDocRef) //data object containing data from the userDocRef document
 
-        try{
-            await setDoc(userDocRef,{
-                displayName,
-                email,
-                createdAt,
-                ...additionalInformation,
-            })
-        }catch(error){console.log(error.message)}
-    }
+    // const userSnapshot = await getDoc(userDocRef);
+
+    // if(!userSnapshot.exists()){
+    //     const { displayName,email } = userAuth;
+    //     const createdAt = new Date();
+
+    //     try{
+    //         await setDoc(userDocRef,{
+    //             displayName,
+    //             email,
+    //             createdAt,
+    //             ...additionalInformation,
+    //         })
+    //     }catch(error){console.log(error.message)}
+    // }
 }
 
 //Sign up
