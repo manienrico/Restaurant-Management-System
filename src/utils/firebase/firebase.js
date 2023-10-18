@@ -45,7 +45,9 @@ export const createUserDocumentFromAuth = async (userAuth, additionalInformation
     console.log(userDocRef)
 
     const userSnapshot = await getDoc(userDocRef) //data object containing data from the userDocRef document
-
+    
+    console.log(userSnapshot)
+    console.log(userSnapshot.exists())
     // const userSnapshot = await getDoc(userDocRef);
 
     // if(!userSnapshot.exists()){
