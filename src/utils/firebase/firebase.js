@@ -16,6 +16,8 @@ import {
     setDoc, //setting the document's data
 } from "firebase/firestore"
 
+//import { projectAuth } from "firebase/remote-config"
+
 
 // Your web app's Firebase configuration
 const firebaseConfig = {

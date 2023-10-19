@@ -1,10 +1,13 @@
-import { useState } from 'react'
+import { useState,useContext } from 'react'
+
+import { UserContext } from '../../../context/user.context'
 
 import { Button, Input } from '../../components'
 
 import './signin.styles.css'
 import { signinAuthUserWithEmailAndPassword } from '../../../utils/firebase/firebase'
 import { signInWithEmailAndPassword } from 'firebase/auth'
+import { useNavigate } from 'react-router-dom'
 
 const defaultFormField = {
   email: '',
@@ -14,6 +17,10 @@ const defaultFormField = {
 export default function Signin() {
   const [ formFields, setFormFields ] = useState(defaultFormField)
   const { email,password } = formFields;
+
+  const navigate = useNavigate();
+
+  const { setCurrentUser } = useContext(UserContext)
 
   const handleOnChange = (e)=>{
     const { name,value } = e.target
@@ -28,8 +35,11 @@ export default function Signin() {
     e.preventDefault()
 
     try{
-      const response = await signinAuthUserWithEmailAndPassword(email,password)
-      console.log(response)
+      const {user} = await signinAuthUserWithEmailAndPassword(email,password)
+      setCurrentUser(user)
+      //console.log(response)
+
+      navigate("home")
 
       resetFormFields()
     }catch(error){console.log(error.message)}

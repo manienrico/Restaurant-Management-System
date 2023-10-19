@@ -1,0 +1,25 @@
+.home-container{
+    display: flex;
+    justify-content: space-between;
+}
+.test-content{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 4rem;
+    padding: 2rem;
+}
+.test-signout{
+    border: none;
+    cursor: pointer;
+}
+.test-btn{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 2rem;
+    padding: 1rem;
+    border: 1px solid red;
+    border-radius: 1rem;
+}
